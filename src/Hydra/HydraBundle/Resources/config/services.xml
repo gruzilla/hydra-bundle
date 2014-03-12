@@ -13,9 +13,15 @@
         <parameter key="hydra.storage.class">Hydra\OAuth\HydraTokenStorage</parameter>
         <parameter key="hydra.mapper.class">Hydra\Mappers\ArrayMapper</parameter>
         <parameter key="hydra.storage.path">%kernel.root_dir%/config/hydra</parameter>
+        <parameter key="hydra.default_repository.class">Hydra\HydraBundle\EntityRepository\DoctrineEntityRepository</parameter>
     </parameters>
 
     <services>
+
+        <service id="hydra.default_repository" class="%hydra.default_repository.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="doctrine.orm.metadata.annotation_reader" />
+        </service>
 
         <service id="hydra.storage" class="%hydra.storage.class%">
             <argument>%hydra.storage.path%</argument>
@@ -27,6 +33,7 @@
 
         <service id="hydra.repository_factory" class="%hydra.repository_factory.class%">
             <argument type="service" id="hydra.metadata_factory" />
+            <argument type="service" id="hydra.default_repository" />
         </service>
 
         <service id="hydra.mapper" class="%hydra.mapper.class%">

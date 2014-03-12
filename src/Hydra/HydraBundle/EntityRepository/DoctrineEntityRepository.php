@@ -24,10 +24,10 @@ class DoctrineEntityRepository implements EntityRepositoryInterface
         $rep = $this->em->getRepository($className);
 
         // test input data
-        $metadata = $em->getMetadataFactory()->getMetadataFor($className);
+        $metadata = $this->em->getMetadataFactory()->getMetadataFor($className);
         $idFields = $metadata->getIdentifier();
 
-        if (SUPPORTED_ID_FIELDS !== count($idFields)) {
+        if (self::SUPPORTED_ID_FIELDS !== count($idFields)) {
             throw new \RuntimeException('Entity ' . $className . ' has too many primary keys to work with Hydra.');
         }
 
@@ -35,7 +35,7 @@ class DoctrineEntityRepository implements EntityRepositoryInterface
         // get value of id from $data
         $idField = $idFields[0];
 
-        $metadata->getReflectionClass()->getProperty($idField);
+        $property = $metadata->getReflectionClass()->getProperty($idField);
 
         $annotation = $this->reader->getPropertyAnnotation($property, 'Hydra\Annotation\Map');
 
