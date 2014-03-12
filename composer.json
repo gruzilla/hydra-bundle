@@ -1,0 +1,26 @@
+{
+    "name": "gruzilla/hydra-bundle",
+    "description": "PHP 5.4+ symfony2 bundle for the hydra social media channel aggregation library",
+    "keywords": ["hydra", "symfony2", "social media", "aggregation", "security"],
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Matthias Steinböck",
+            "email": "matthias.steinboeck@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "gruzilla/hydra": "0.1.*@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "Hydra\\HydraBundle": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}

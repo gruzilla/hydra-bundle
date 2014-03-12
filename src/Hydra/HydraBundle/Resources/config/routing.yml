@@ -1,0 +1,3 @@
+_hydra_start:
+    resource: "@HydraBundle/Controller/CallbackController.php"
+    type:     annotation

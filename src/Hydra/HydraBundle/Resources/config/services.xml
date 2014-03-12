@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="hydra.service.class">Hydra\Hydra</parameter>
+        <parameter key="hydra.worker.class">Hydra\Workers\MappedSerialWorker</parameter>
+        <parameter key="hydra.service_provider.class">Hydra\ServiceProviders\DefaultServiceProvider</parameter>
+        <parameter key="hydra.metadata_factory.class">Hydra\Metadata\DefaultMetadataFactory</parameter>
+        <parameter key="hydra.repository_factory.class">Hydra\EntityRepository\DefaultRepositoryFactory</parameter>
+        <parameter key="hydra.storage.class">Hydra\OAuth\HydraTokenStorage</parameter>
+        <parameter key="hydra.mapper.class">Hydra\Mappers\ArrayMapper</parameter>
+        <parameter key="hydra.storage.path">%kernel.root_dir%/config/hydra</parameter>
+    </parameters>
+
+    <services>
+
+        <service id="hydra.storage" class="%hydra.storage.class%">
+            <argument>%hydra.storage.path%</argument>
+        </service>
+
+        <service id="hydra.metadata_factory" class="%hydra.metadata_factory.class%">
+            <argument type="service" id="doctrine.orm.metadata.annotation_reader" />
+        </service>
+
+        <service id="hydra.repository_factory" class="%hydra.repository_factory.class%">
+            <argument type="service" id="hydra.metadata_factory" />
+        </service>
+
+        <service id="hydra.mapper" class="%hydra.mapper.class%">
+            <argument type="service" id="hydra.metadata_factory" />
+        </service>
+
+        <service id="hydra.service_provider" class="%hydra.service_provider.class%">
+            <argument type="service" id="hydra.storage" />
+        </service>
+
+        <service id="hydra.worker" class="%hydra.worker.class%">
+            <argument type="service" id="hydra.service_provider" />
+            <argument type="service" id="hydra.mapper" />
+        </service>
+
+        <service id="hydra.service" class="%hydra.service.class%">
+            <argument type="service" id="hydra.worker" />
+            <argument type="service" id="hydra.service_provider" />
+        </service>
+    </services>
+</container>
