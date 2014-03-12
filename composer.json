@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "gruzilla/hydra": "0.1.*@dev"
+        "gruzilla/hydra": "0.*@dev"
     },
     "autoload": {
         "psr-0": {
